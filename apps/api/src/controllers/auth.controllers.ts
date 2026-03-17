@@ -4,13 +4,18 @@ import { PlatformUser } from "@enterprise-commerce/core/platform/types"
 import { createUser } from "../models/User"
 
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
-  const { email, password } = req.body;
-  const newUser: PlatformUser = {
-    id: null,
-    email,
-    password
-  };
+  try {
+    const { email, password } = req.body;
+    const newUser: PlatformUser = {
+      id: "",
+      email,
+      password
+    };
+    const user = await createUser(newUser);
 
-  // please finish this function
-
+    res.status(201).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error creating user" });
+  }
 };

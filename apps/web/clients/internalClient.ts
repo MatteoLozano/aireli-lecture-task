@@ -2,10 +2,16 @@ import { PlatformAccessToken, PlatformUserCreateInput, PlatformUser } from '@ent
 import axios from 'axios';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
+import { Input } from 'postcss';
 
 const registerUser = async (input: PlatformUserCreateInput): Promise<Pick<PlatformUser, "id"> | undefined | null> => {
-  // ToDo: Implement the registerUser function
-  return null
+  try {
+    const { data } = await axios.post('http://localhost:3001/register', input);
+    return data;
+  } catch (error) {
+    console.error("Failed to register user:", error);
+    return null;
+  }
 };
 
 const loginUser = async (input: PlatformUserCreateInput) => {
@@ -18,6 +24,8 @@ const loginUser = async (input: PlatformUserCreateInput) => {
   const expiresAt = new Date(Date.now() + 3600 * 1000).toISOString(); // 3600 seconds = 1 hour
   return { accessToken, expiresAt };
 };
+
+
 
 const getUser = async (accessToken: string): Promise<PlatformUser | undefined | null> => {
   try {

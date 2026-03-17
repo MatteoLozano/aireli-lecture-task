@@ -37,7 +37,6 @@ export function RegisterModal() {
     
     try { 
       const user = await registerUser({ email, password })
-
       if (user) {
         const currentUser = await getCurrentUser()
         currentUser && setUser(currentUser)
